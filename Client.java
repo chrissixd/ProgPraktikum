@@ -16,19 +16,40 @@ public class Client extends NetworkBase
 		this.IP = zielIp;
 	}
 	
+	public boolean connect()
+	{
+		if(client == null)
+		{
+			try 
+			{
+				client = new Socket(IP, port);
+			} 
+			catch (ConnectException e2) 
+			{
+				System.out.println("Fehler beim Verbinden.");
+				return false;
+			} 
+			catch(IOException e1)
+			{
+				e1.getStackTrace();
+				return false;
+			}
+
+			return true;
+		}
+		return false;
+	}
+	
 	public void run()
 	{
 		DataInputStream input = null;
-		try 
-		{
-			client = new Socket(IP, port); //Setzt den Server hier
-		} 
-		catch (Exception e1) 
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} 
-
+		int connectTry = 0;
+		while(!connect() && connectTry < 10)
+			connectTry++;
+		
+		if(connectTry == 10)
+			System.out.println("Fehler, Server unerreichbar");
+		
 		while(client != null) //Nur falls ein Server da ist
 		{
 			try 

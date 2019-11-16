@@ -17,6 +17,7 @@ public class Server extends NetworkBase
 		super(gui);
 		server = new ServerSocket(port);
 		server.setSoTimeout(100000);
+		expectMessage = true;
 	}
 	
 	public void run()
