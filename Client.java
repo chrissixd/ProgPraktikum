@@ -1,17 +1,18 @@
-package banane;
+package network;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.*;
+import logic.Spieler;
 
 public class Client extends NetworkBase
 {
 
 	private String IP;
 	
-	public Client(String zielIp, int port, TestGUI gui)
+	public Client(String zielIp, int port, Spieler spiel)
 	{
-		super(gui);
+		super(spiel);
 		this.port = port;
 		this.IP = zielIp;
 	}

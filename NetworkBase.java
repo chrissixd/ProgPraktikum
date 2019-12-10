@@ -1,71 +1,96 @@
-package banane;
+package network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
+import logic.*;
 
 public abstract class NetworkBase extends Thread{
 
-	protected Socket client;
+	protected volatile Socket client;
 	protected String data;
-	protected boolean expectMessage = false; // Für das PingPong
+	protected volatile boolean expectMessage = false; // Für das PingPong
 	protected DataInputStream input = null;
 	protected int port;
-	//protected SpielerBasis Spieler;
-	protected TestGUI gui;
+	protected Spieler Spiel;
 	
 	
-	public NetworkBase(TestGUI gui) 
+	public NetworkBase(Spieler spiel) 
 	{
-		this.gui = gui;
+		this.Spiel = spiel;
 	}
 	
-	public boolean sendMessage(String command) throws IOException 
+	
+	public boolean getOkayToSend()
 	{
-		
-		if(client == null) //Prüft ob der Client noch verbunden ist	
+		//Gibt aus ob man was Senden darf oder nicht
+		return !expectMessage;
+	}
+	public boolean sendMessage(String command) 
+	{
+		try
 		{
-			System.out.println("Es besteht keine Verbindung");
+			if(client == null) //Prüft ob der Client noch verbunden ist	
+			{
+				return false;
+			}
+			else
+			{
+				data = "";
+				DataOutputStream output = new DataOutputStream(client.getOutputStream()); //Setzt Client für den Output
+				output.writeUTF(command); //Sende daten
+				System.out.println("Send Data: " + command);
+				expectMessage = true;
+				return true;
+			}
+		}
+		catch(IOException ex)
+		{
 			return false;
 		}
-		else
-		{
-			DataOutputStream output = new DataOutputStream(client.getOutputStream()); //Setzt Client für den Output
-			output.writeUTF(command); //Sende daten
-			System.out.println("Send Data: " + command);
-			expectMessage = true; 
-			return true;
-		}
+
 
 	}
+	
 	protected boolean respond(String information)
 	{
 		String[] a = information.split("\\s+");
 		if(expectMessage)
 		{
+			
 			expectMessage = false;
 			switch(a[0]) //hier werden die Befehle aufgeteilt und die bestimmten methoden aufgerufen
 			{
 				case "size":
-					gui.setInputText( "Setze Spielfeld auf: " + a[1]+ ","+ a[1]);
+					Spiel.setFieldSize(Integer.parseInt(a[1])); //Setze Spielfeld größe
 					break;
+				
 					
 				case "shot":
-
-					break;
-				case "quit":
-					try {
-						this.sendMessage("quit");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					
+					if(a.length >= 3)
+					{
+						sendMessage("answer " + Spiel.getAttack(a[1] + " " + a[2])); //Gebe zurück ob getroffen wurde oder nicht
 					}
-					gui.stopFrame();
+					else
+						System.out.println("Fehleingabe");
 					break;
-				default:
-					gui.setInputText(a[0]);
-					return false;
+					
+				case "confirmed":
+					System.out.println("Ship Placement Complete");
+					break;
+					
+				
+				case "save":
+					long save = Long.parseLong(a[1]);
+					System.out.println("Save: " + save);
+					Spiel.saveGame(save);
+					break;
+				
+				case "load":
+					System.out.println();
+					break;
+					
 			}
 		}
 		else
@@ -76,5 +101,47 @@ public abstract class NetworkBase extends Thread{
 
 		return true;
 	}
+
+	public int strike(String a)
+	{
+		sendMessage("shot " + a);
+		
+		while(data == "");
+		String[] b = data.split("\\s+");
+		
+		if(b[0] == "anwser")
+		{
+			int ergebnis = Integer.parseInt(b[1]);	
+			if(ergebnis == 0) // falls das Ergebnis 0 ist, sende pass
+				sendMessage("pass");
+			return ergebnis;
+		}
+		else
+			return -1;
+	}
+	
+	public boolean finishShip()
+	{
+		try
+		{
+			while(expectMessage)
+			{
+				Thread.sleep(10);
+			}
+		}
+		catch(Exception ex)
+		{
+			
+		}
+
+
+			//Nur falls keine Nachricht erwartet wird, darf man eine Nachricht schicken
+		if(sendMessage("confirmed"))
+			return true;
+		return false;
+
+
+	}
+	
 
 }
