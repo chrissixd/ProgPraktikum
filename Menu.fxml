@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" stylesheets="/sample/sversenken.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <BorderPane id="StartMenu" fx:id="StartMenu" prefHeight="500.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox prefHeight="350.0" prefWidth="320.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="NewGame" mnemonicParsing="false" onMousePressed="#NewGame" prefHeight="50.0" prefWidth="300.0" style="-fx-background-radius: 20;" text="New Game" textAlignment="CENTER">
+                     <font>
+                        <Font name="Calibri Italic" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" top="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="Continue" mnemonicParsing="false" onMousePressed="#startMenu" prefHeight="50.0" prefWidth="300.0" style="-fx-background-radius: 20;" text="Continue">
+                     <font>
+                        <Font name="Calibri Italic" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="LoadGame" mnemonicParsing="false" onMousePressed="#startMenu" prefHeight="50.0" prefWidth="300.0" style="-fx-background-radius: 20;" text="Load Game">
+                     <font>
+                        <Font name="Calibri Italic" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="Options" mnemonicParsing="false" onMousePressed="#startMenu" prefHeight="50.0" prefWidth="300.0" style="-fx-background-radius: 20;" text="Options">
+                     <font>
+                        <Font name="Calibri Italic" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="Exit" mnemonicParsing="false" onMousePressed="#startMenu" prefHeight="50.0" prefWidth="300.0" style="-fx-background-radius: 20;" text="Exit">
+                     <font>
+                        <Font name="Calibri Italic" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets left="20.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+         </left>
+         <top>
+            <Pane prefHeight="150.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="Titelname" prefHeight="150.0" prefWidth="900.0" text="Sea of Pirates" textAlignment="CENTER">
+                     <font>
+                        <Font name="Century" size="81.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </Pane>
+         </top>
+      </BorderPane>
+      <BorderPane fx:id="Menu" disable="true" prefHeight="500.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <BorderPane prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+               <left>
+                  <Button fx:id="ZurueckButton1" mnemonicParsing="false" onMousePressed="#ZurueckAnfang" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 0;" text="Zurück" textFill="WHITE" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <Button fx:id="WeiterButton" mnemonicParsing="false" onMousePressed="#WeiterSpielfeld" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #000000; -fx-background-radius: 0;" text="Weiter" textFill="WHITE" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </bottom>
+         <center>
+            <GridPane fx:id="MenuGridPane" prefHeight="300.0" prefWidth="500.0" style="-fx-background-color: #cccccc;" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="0.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <RadioButton id="Host" fx:id="Host" mnemonicParsing="false" onMouseClicked="#HostInit" prefHeight="25.0" prefWidth="100.0" selected="true" text="Host" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton id="Client" fx:id="Client" alignment="CENTER_LEFT" mnemonicParsing="false" onMouseClicked="#ClientInit" prefHeight="25.0" prefWidth="100.0" text="Client" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </RadioButton>
+                  <TextField fx:id="IPAdresse" editable="false" prefHeight="25.0" prefWidth="0.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <Label text="Ihre IP-Adresse" textAlignment="CENTER" textFill="#053fab" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="Spielfeldgroesse" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="6" />
+                  <Label text="Spielfeldgröße (5-30)" textFill="#053fab" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </center>
+         <left>
+            <Pane prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #808080;" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Pane prefHeight="300.0" prefWidth="200.0" style="-fx-background-color: #808080;" BorderPane.alignment="CENTER" />
+         </right>
+         <top>
+            <Pane prefHeight="100.0" prefWidth="900.0" style="-fx-background-color: #4d4d4d;" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+      <BorderPane fx:id="SpielfeldAnzeige" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+               <left>
+                  <Button mnemonicParsing="false" onMousePressed="#ZurueckSpielfeld" prefHeight="50.0" prefWidth="200.0" text="Zurück" BorderPane.alignment="CENTER" />
+               </left>
+               <right>
+                  <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Button" BorderPane.alignment="CENTER" />
+               </right>
+               <BorderPane.margin>
+                  <Insets top="50.0" />
+               </BorderPane.margin>
+               <center>
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </Pane>
+               </center>
+            </BorderPane>
+         </bottom>
+         <center>
+            <GridPane fx:id="Spielfeld" gridLinesVisible="true" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" percentWidth="45.0" prefWidth="300.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="50.0" minWidth="50.0" percentWidth="10.0" prefWidth="50.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="300.0" minWidth="300.0" percentWidth="45.0" prefWidth="300.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="200.0" prefHeight="200.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <BorderPane.margin>
+                  <Insets bottom="50.0" />
+               </BorderPane.margin>
+               <children>
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+         </center>
+         <left>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="400.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+         </left>
+         <top>
+            <Pane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="100.0" prefHeight="100.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin></Pane>
+         </top>
+         <right>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="400.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>
