@@ -8,18 +8,22 @@ import logic.*;
 public abstract class NetworkBase extends Thread{
 
 	protected volatile Socket client;
-	protected String data;
+	protected volatile String data;
 	protected volatile boolean expectMessage = false; // Für das PingPong
 	protected DataInputStream input = null;
 	protected int port;
 	protected Spieler Spiel;
-	
+	private String lastMessage = "";
 	
 	public NetworkBase(Spieler spiel) 
 	{
 		this.Spiel = spiel;
 	}
 	
+	public String getLastMessage()
+	{
+		return lastMessage;
+	}
 	
 	public boolean getOkayToSend()
 	{
@@ -57,8 +61,8 @@ public abstract class NetworkBase extends Thread{
 		String[] a = information.split("\\s+");
 		if(expectMessage)
 		{
-			
 			expectMessage = false;
+			lastMessage = information;
 			switch(a[0]) //hier werden die Befehle aufgeteilt und die bestimmten methoden aufgerufen
 			{
 				case "size":
@@ -76,10 +80,6 @@ public abstract class NetworkBase extends Thread{
 						System.out.println("Fehleingabe");
 					break;
 					
-				case "confirmed":
-					System.out.println("Ship Placement Complete");
-					break;
-					
 				
 				case "save":
 					long save = Long.parseLong(a[1]);
@@ -90,12 +90,16 @@ public abstract class NetworkBase extends Thread{
 				case "load":
 					System.out.println();
 					break;
+				case "answer":
+					data = information;
+					break;
 					
 			}
+
 		}
 		else
 		{
-			System.out.println("Unerwartete Message: Cheat Versuch?");
+			System.out.println("Unerwartete Message");
 			return false;
 		}
 
@@ -107,13 +111,15 @@ public abstract class NetworkBase extends Thread{
 		sendMessage("shot " + a);
 		
 		while(data == "");
+		System.out.println(data);
 		String[] b = data.split("\\s+");
-		
-		if(b[0] == "anwser")
+
+		if(b[0].equals("answer"))
 		{
 			int ergebnis = Integer.parseInt(b[1]);	
 			if(ergebnis == 0) // falls das Ergebnis 0 ist, sende pass
 				sendMessage("pass");
+			data = "";
 			return ergebnis;
 		}
 		else
@@ -131,7 +137,7 @@ public abstract class NetworkBase extends Thread{
 		}
 		catch(Exception ex)
 		{
-			
+			return false;
 		}
 
 

@@ -1,7 +1,7 @@
 package network;
 
 import java.io.DataInputStream;
-import java.net.InetAddress;
+import java.util.Enumeration;
 import java.io.IOException;
 import java.net.*;
 import logic.Spieler;
@@ -15,8 +15,17 @@ public class Server extends NetworkBase
 	public Server(int port, Spieler spiel) throws IOException, SocketException
 	{
 		super(spiel);
-		server = new ServerSocket(port);
-		server.setSoTimeout(100000);
+		try
+		{
+			server = new ServerSocket(port);	
+			server.setSoTimeout(100000);
+		}
+		catch(BindException ex)
+		{
+			System.out.println("Port ist schon in verwendung, läuft es noch"
+					+ " im hintergrund?");
+		}
+		
 		expectMessage = true;
 	}
 	
@@ -24,7 +33,24 @@ public class Server extends NetworkBase
 	{						// falls mich das leben hasst, gebe 0.0.0.0 aus, normalerweise 127.0.0.1
 		try
 		{
-			return InetAddress.getLocalHost().toString();
+			Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+			while (interfaces.hasMoreElements())
+			{
+				NetworkInterface networkInterface = interfaces.nextElement(); //Bekomme neues Netzwerkinterface
+				Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+				while(inetAddresses.hasMoreElements()) //Prüfe alle IPs vom Netzwerkinterface ob es IPv4 ist
+				{
+					InetAddress a = inetAddresses.nextElement();
+					if(a instanceof Inet4Address)
+					{
+						if(!a.toString().equals("/192.168.56.1") && !a.toString().equals("/127.0.0.1"))
+							return a.toString(); //wenn es nicht von Virtualbox ist oder die LocalHost addresse geb die aus
+					}
+				}
+
+			}
+			return "0.0.0.0";
+			
 		}
 		catch(Exception ex)
 		{
