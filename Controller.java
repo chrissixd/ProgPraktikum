@@ -2,10 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -20,13 +17,17 @@ public class Controller {
     public TextField IPAdresse;
     public TextField Spielfeldgroesse;
     public BorderPane SpielfeldAnzeige;
+    public MenuButton Schwierigkeitswahl;
+    public MenuButton Spielartwahl;
     public GridPane Spielfeld;
     public String IP; //<--- hier wird IP und Spielfeldgroesse gespeichert
-    public int SPGroesse;
+    public int SPGroesse; // Spielfeldgroesse 5 - 30;
+    public String Spielart; // Spielart kann sein "PvP" "PvKI" oder "KIvKI"
+    public String Schwierigkeit; // Schwierigkeit kann sein "Easy" oder "Hard"
+    public String Schiffauswahl; // Schiffauswahl ist das Schiff das man setzen möchte
 
     public void startMenu(MouseEvent mouseEvent){
        //String test = mouseEvent.getPickResult().getIntersectedNode().getId();
-
     }
 
     public void NewGame(MouseEvent mouseEvent) {
@@ -35,9 +36,12 @@ public class Controller {
         Menu.setDisable(false);
         Menu.setVisible(true);
         IPAdresse.appendText("IP");
+        Spielart = "PvP";
+        Schwierigkeit = null;
+        Schwierigkeitswahl.setDisable(true);
         //SpielfeldAnzeige.setDisable(false);
         //SpielfeldAnzeige.setVisible(true);
-    }
+    } //Neues Spiel starten
     public void ZurueckAnfang(MouseEvent mouseEvent) {
         IPAdresse.clear();
         Spielfeldgroesse.clear();
@@ -45,7 +49,7 @@ public class Controller {
         Menu.setVisible(false);
         StartMenu.setDisable(false);
         StartMenu.setVisible(true);
-    }
+    } // Vom Menu zum Start zurueck
     public void WeiterSpielfeld(MouseEvent mouseEvent) {
         IP = IPAdresse.getText();
         SPGroesse = Integer.parseInt(Spielfeldgroesse.getText());
@@ -60,15 +64,15 @@ public class Controller {
         GridPane enemyfield = new GridPane();
         Spielfeld.add(Spielfelderstellen(playerfield),0,0);
         Spielfeld.add(Spielfelderstellen(enemyfield),2,0);
-    }
+    } // Vom Menu zum Spielfeld
     public void ZurueckSpielfeld(MouseEvent mouseEvent) {
         SpielfeldAnzeige.setDisable(true);
         SpielfeldAnzeige.setVisible(false);
         StartMenu.setDisable(false);
         StartMenu.setVisible(true);
         System.out.println("ok");
-    }
-    public GridPane Spielfelderstellen(GridPane Feld)
+    } // Vom Spielfeld zurueck zum Anfang
+    public GridPane Spielfelderstellen(GridPane Feld) // Neues Spielfeld erstellen Max hier musst du reingehen
     {
         Feld.setGridLinesVisible(true);
         final int num = SPGroesse;
@@ -88,7 +92,12 @@ public class Controller {
                 knopf.setOnMousePressed(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent mouseEvent) {
-                        System.out.println(mouseEvent.getPickResult().getIntersectedNode().getId());
+                        if(Schiffauswahl!= null) // Sobald man auf ein Spielfeld drückt wird diese Funktion aufgerufen also Pack den Code für die Schiffsplatzierung hier rein außerdem müsste man noch abfragen wie viele Schiffe man noch legen darf
+                        {
+                            String Feld = mouseEvent.getPickResult().getIntersectedNode().getId(); // Hier steht die Koordinate vom gedrückten Feld drinnen
+                            System.out.println(Feld);
+                            //mouseEvent.getPickResult().getIntersectedNode().setStyle("-fx-background-color: #c0c0c0;");
+                        }
                     }
                 });
                 Feld.add(knopf,i,x);
@@ -99,6 +108,7 @@ public class Controller {
     }
     public void HostInit(MouseEvent mouseEvent) { //Max hier die IP eintragen
         Client.setSelected(false);
+        IPAdresse.clear();
         IPAdresse.setEditable(false);
         IPAdresse.appendText("IP"); //<---
         Host.setDisable(true);
@@ -110,5 +120,29 @@ public class Controller {
         IPAdresse.clear();
         Client.setDisable(true);
         Host.setDisable(false);
+    }
+
+    public void Schiffwahl(MouseEvent mouseEvent) {
+        Schiffauswahl = mouseEvent.getPickResult().getIntersectedNode().getId();
+    } // Hier wählt man das Schiff aus das man legen möchte;
+    public void Spielartauswahl(ActionEvent actionEvent) {
+        Spielart = ((MenuItem)actionEvent.getSource()).getId();
+        Schwierigkeitswahl.setDisable(true);
+        IPAdresse.setDisable(false);
+        if(Spielart.equals("PvKI") || Spielart.equals("KIvKI"))
+        {
+            Schwierigkeitswahl.setDisable(false);
+            IPAdresse.setDisable(true);
+        }
+    }
+    public void Schwierigkeitauswahl(ActionEvent actionEvent) {
+        Schwierigkeit = ((MenuItem)actionEvent.getSource()).getId();
+        System.out.println(Schwierigkeit);
+    }
+
+    public void RandomSchiffeLegen(MouseEvent mouseEvent) { // Für Aaron wollte der
+    }
+
+    public void SchiffeLegenFertig(MouseEvent mouseEvent) { // Was passieren soll wenn alle Schiffe gelegt worden sind
     }
 }
