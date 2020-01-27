@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" stylesheets="/sample/sversenken.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <BorderPane id="StartMenu" fx:id="StartMenu" prefHeight="500.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane id="StartMenu" fx:id="StartMenu" disable="true" prefHeight="500.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <VBox prefHeight="350.0" prefWidth="320.0" BorderPane.alignment="CENTER">
                <children>
@@ -162,7 +162,7 @@
             </GridPane>
          </center>
       </BorderPane>
-      <BorderPane fx:id="SpielfeldAnzeige" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane fx:id="SpielfeldAnzeige" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
             <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
                <left>
@@ -210,7 +210,7 @@
                         <RowConstraints minHeight="10.0" percentHeight="8.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="Schiff1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onMousePressed="#Schiffwahl">
+                        <Button fx:id="Schiff1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" mnemonicParsing="false" onMouseDragged="#Schiffwahl" onMousePressed="#Schiffwahl" onMouseReleased="#Schiffplatzieren">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                                  <image>
@@ -221,7 +221,7 @@
                                  </viewport>
                               </ImageView>
                            </graphic></Button>
-                        <Button fx:id="Schiff2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#Schiffwahl" GridPane.rowIndex="1">
+                        <Button fx:id="Schiff2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseDragged="#Schiffwahl" onMousePressed="#Schiffwahl" onMouseReleased="#Schiffplatzieren" GridPane.rowIndex="1">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                                  <image>
@@ -229,7 +229,7 @@
                                  </image>
                               </ImageView>
                            </graphic></Button>
-                        <Button fx:id="Schiff3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#Schiffwahl" GridPane.rowIndex="2">
+                        <Button fx:id="Schiff3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseDragged="#Schiffwahl" onMousePressed="#Schiffwahl" onMouseReleased="#Schiffplatzieren" GridPane.rowIndex="2">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                                  <image>
@@ -237,7 +237,7 @@
                                  </image>
                               </ImageView>
                            </graphic></Button>
-                        <Button fx:id="Schiff4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMousePressed="#Schiffwahl" GridPane.rowIndex="3">
+                        <Button fx:id="Schiff4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseDragged="#Schiffwahl" onMousePressed="#Schiffwahl" onMouseReleased="#Schiffplatzieren" GridPane.rowIndex="3">
                            <graphic>
                               <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                                  <image>

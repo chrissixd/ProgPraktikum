@@ -1,8 +1,11 @@
 package sample;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -20,11 +23,15 @@ public class Controller {
     public MenuButton Schwierigkeitswahl;
     public MenuButton Spielartwahl;
     public GridPane Spielfeld;
+    public GridPane playerfield = new GridPane();
+    public GridPane enemyfield = new GridPane();
     public String IP; //<--- hier wird IP und Spielfeldgroesse gespeichert
     public int SPGroesse; // Spielfeldgroesse 5 - 30;
     public String Spielart; // Spielart kann sein "PvP" "PvKI" oder "KIvKI"
     public String Schwierigkeit; // Schwierigkeit kann sein "Easy" oder "Hard"
     public String Schiffauswahl; // Schiffauswahl ist das Schiff das man setzen möchte
+    public boolean Schiffgewaehlt = false;
+    public Node[][] Felder = new Node[30][30];
 
     public void startMenu(MouseEvent mouseEvent){
        //String test = mouseEvent.getPickResult().getIntersectedNode().getId();
@@ -60,10 +67,13 @@ public class Controller {
         SpielfeldAnzeige.setDisable(false);
         SpielfeldAnzeige.setVisible(true);
         Spielfeld.getChildren().removeAll();
-        GridPane playerfield = new GridPane();
-        GridPane enemyfield = new GridPane();
         Spielfeld.add(Spielfelderstellen(playerfield),0,0);
         Spielfeld.add(Spielfelderstellen(enemyfield),2,0);
+        ObservableList<Node> childrens = playerfield.getChildren();
+        Felder[0][0] = childrens.get(0);
+        //for (Node node : childrens) {
+            
+        //}
     } // Vom Menu zum Spielfeld
     public void ZurueckSpielfeld(MouseEvent mouseEvent) {
         SpielfeldAnzeige.setDisable(true);
@@ -123,8 +133,47 @@ public class Controller {
     }
 
     public void Schiffwahl(MouseEvent mouseEvent) {
-        Schiffauswahl = mouseEvent.getPickResult().getIntersectedNode().getId();
+        if(Schiffgewaehlt == false)
+        {
+            Schiffauswahl = mouseEvent.getPickResult().getIntersectedNode().getId();
+            Schiffgewaehlt = true;
+        }
     } // Hier wählt man das Schiff aus das man legen möchte;
+    public void Schiffplatzieren(MouseEvent mouseEvent) {
+        int i = 0;
+        Schiffgewaehlt = false;
+        String Schiff = mouseEvent.getPickResult().getIntersectedNode().getId();
+        System.out.println(Schiff + " " + ((int) Schiff.charAt(0) - 48) + " " + ((int) Schiff.charAt(2) - 48));
+        switch (Schiffauswahl)
+        {
+            case "Schiff1":
+                System.out.println(Schiffauswahl);
+                i = 2;
+                break;
+            case "Schiff2":
+                System.out.println(Schiffauswahl);
+                i = 3;
+                break;
+            case "Schiff3":
+                System.out.println(Schiffauswahl);
+                i = 4;
+                break;
+            case "Schiff4":
+                System.out.println(Schiffauswahl);
+                i = 5;
+                break;
+            default:
+                i = 0;
+                break;
+        }
+        while(i > 0)
+        {
+            Felder[((int) Schiff.charAt(0)) - 48][((int) Schiff.charAt(2)) - 48].setStyle("-fx-background-color: #000000;");
+            //mouseEvent.getPickResult().getIntersectedNode().setStyle("-fx-background-color: #000000;");
+            i--;
+        }
+    }
+
     public void Spielartauswahl(ActionEvent actionEvent) {
         Spielart = ((MenuItem)actionEvent.getSource()).getId();
         Schwierigkeitswahl.setDisable(true);
