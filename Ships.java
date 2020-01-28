@@ -22,7 +22,6 @@ public class Ships {
 				if(coord[i].equals("-20 -20"))
 					hits++;
 			}
-
 		}
 		else 
 		{
@@ -55,6 +54,10 @@ public class Ships {
 		}
 		
 		return Coords;
+	}
+	public String getCoords(int i) //gibt coords am index i aus
+	{
+		return shipcoord[i];
 	}
 	
 	public boolean checkDead() 

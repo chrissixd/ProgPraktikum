@@ -92,11 +92,11 @@ public class Spieler
 				else
 					speicherFile.println(false);
 				
-				Ships[] asd = field.getSchiffe();
+				List<Ships> asd = field.getSchiffe();
 				
-				for(int i = 0; i < asd.length; i++) //Speichere jedes Schiff
+				for(int i = 0; i < asd.size(); i++) //Speichere jedes Schiff
 				{
-					speicherFile.println(asd[i].getCoords());
+					speicherFile.println(asd.get(i).getCoords());
 				}
 				
 				for(int i = 0; i < AttacksI.size();i++) //Speichert jede Coordinate, wo bereits geschossen wurde
@@ -196,10 +196,10 @@ public class Spieler
 					return "confirmed";
 				}
 			}
-			catch(NullPointerException ex) //Problem wegen Threads
+			catch(NullPointerException ex)
 			{
-				if(coord.length > 1)
-					setSchiffe(coord);
+				//if(coord.length > 1)
+					//setSchiffe(coord);
 			}
 		}
 		return "kein feld oder zu kleines ship";
@@ -212,6 +212,7 @@ public class Spieler
 		try {
 			a = getShipForSize();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Für Size: "+ FG + " " + AS + " Schiffe");
@@ -265,7 +266,6 @@ public class Spieler
 					e.printStackTrace();
 				}
 				b=Rnd.nextBoolean(); //false --> vertikal, true --> horizontal
-				
 				if(b) {
 
 					x=Rnd.nextInt((FG-1)-j);
@@ -328,5 +328,12 @@ public class Spieler
 				}
 			}
 		}
+	}
+	
+	public void Loeschen(String s) {
+		field.loeschSchiff(s);
+	}
+	public List<Ships> getShips() {
+		return field.getSchiffe();
 	}
 }

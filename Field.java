@@ -1,14 +1,15 @@
 package logic;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Field {
 	
-	private Ships[] ships;
+	private List<Ships> ships;
 	//private int[] ShipCount;
 	private int countShips;
 	private int anzShips;
 	private int fieldSize;
-	private String[] Collision;
-	private int countColl;
+	private List<String> Collision;
 	
 	public boolean setShipTypes(int[] Ships)
 	{
@@ -21,7 +22,8 @@ public class Field {
 			for(int i=0;i<Ships.length;i++) {
 				z+=(Ships[i]*(i+4)*3);
 			}
-			Collision =new String[z];
+			
+			Collision =new ArrayList<String>();
 		}
 		else
 			return false;
@@ -30,11 +32,10 @@ public class Field {
 
 	public Field(int ShipAnz,int FieldSize) 
 	{
-		countColl=0;
 		countShips=0;
 		anzShips=ShipAnz;
 		fieldSize=FieldSize;
-		ships = new Ships[anzShips];	//array der schiffe zum durchsuchen
+		ships = new ArrayList<Ships>();	//array der schiffe zum durchsuchen
 	}
 	
 	public String addShips(String[] Coord) //Coord gleiche länge wie schiffe
@@ -57,14 +58,18 @@ public class Field {
 		}
 		
 		if(countShips < anzShips) {
-
+				/*if(ShipCount[Coord.length-2] == 0) {
+					return "Genug von der Groesse";
+				}
+				else {
+					ShipCount[Coord.length-2]--;
+				}*/
 				if(checkCollision(Coord).equals("no Collision"))
 				{
 					Ships Pship;
 					Pship = new Ships(Coord.length);	//Schiffe erstellen in
 					Pship.setShip(Coord);				//ein array reinschreiben
-					ships[countShips] = Pship;			//und zählen
-					countShips++;
+					ships.add(Pship);			//und zählen
 					setCollision(Coord);
 				}
 				else
@@ -87,11 +92,11 @@ public class Field {
 	public int attack(String Coord) //schaut nach treffer usw.
 	{	
 		int z=-1;//fehler
-		for(int i=0;i<ships.length;i++)
+		for(int i=0;i<ships.size();i++)
 		{				
-			if(ships[i].checkHit(Coord)) 
+			if(ships.get(i).checkHit(Coord)) 
 			{
-				if(ships[i].checkDead()) 
+				if(ships.get(i).checkDead()) 
 				{
 					z=2;		//schiff zerstört
 					break;
@@ -105,7 +110,7 @@ public class Field {
 	}
 	
 	public int getSchiffSize(int Index) {	//0 erstes schiff n letztes 
-		return ships[Index].getSize();		//schiff man muss sich die 
+		return ships.get(Index).getSize();		//schiff man muss sich die 
 	}										//schiffsreihenfolge merken
 	
 	public String checkCollision(String[] C) {
@@ -122,12 +127,8 @@ public class Field {
 	public Boolean checkCollision(String C) {
 		if(C.equals("-20 -20"))
 			return false;
-		for(int i=0;i<Collision.length;i++) {
-			if(Collision[i]==null) {
-				//System.out.println("no collision");
-				return false;
-			}
-			else if(Collision[i].equals(C))
+		for(int i=0;i<Collision.size();i++) {
+			if(Collision.contains(C))
 			{
 				//System.out.println("collision");
 				return true;
@@ -145,13 +146,13 @@ public class Field {
 		}
 	}
 
-	public Ships[] getSchiffe()
+	public List<Ships> getSchiffe()
 	{
 		return ships;
 	}
 	
 	public int GetCollisionLength(){
-		return Collision.length;
+		return Collision.size();
 	}
 	
 	private void setVar(String[] C,int k)
@@ -184,56 +185,47 @@ public class Field {
 				{
 				case 0:
 					if(!checkCollision(z+" "+a)) {
-					Collision[countColl]=z+" "+a;
-					countColl++;
+					Collision.add(z+" "+a);
 					}
 					break;
 				case 1:
 					if(!checkCollision(z+" "+(a+1))) {
-					Collision[countColl]=z+" "+(a+1);
-					countColl++;
+					Collision.add(z+" "+(a+1));
 					}
 					break;
 				case 2:
 					if(!checkCollision((z+1)+" "+a)) {
-					Collision[countColl]=(z+1)+" "+a;
-					countColl++;
+					Collision.add((z+1)+" "+a);
 					}
 					break;
 				case 3:
 					if(!checkCollision((z+1)+" "+(a+1))) {
-					Collision[countColl]=(z+1)+" "+(a+1);
-					countColl++;
+					Collision.add((z+1)+" "+(a+1));
 					}
 					break;
 				case 4:
 					if(!checkCollision(z+" "+(a-1))) {
-					Collision[countColl]=z+" "+(a-1);
-					countColl++;
+					Collision.add(z+" "+(a-1));
 					}
 					break;
 				case 5:
 					if(!checkCollision((z-1)+" "+a)) {
-					Collision[countColl]=(z-1)+" "+a;
-					countColl++;
+					Collision.add((z-1)+" "+a);
 					}
 					break;
 				case 6:
 					if(!checkCollision((z-1)+" "+(a-1))) {
-					Collision[countColl]=(z-1)+" "+(a-1);
-					countColl++;
+					Collision.add((z-1)+" "+(a-1));
 					}
 					break;
 				case 7:
 					if(!checkCollision((z+1)+" "+(a-1))) {
-					Collision[countColl]=(z+1)+" "+(a-1);
-					countColl++;
+					Collision.add((z+1)+" "+(a-1));
 					}
 					break;
 				case 8:
 					if(!checkCollision((z-1)+" "+(a+1))) {
-					Collision[countColl]=(z-1)+" "+(a+1);
-					countColl++;
+					Collision.add((z-1)+" "+(a+1));
 					}
 					break;
 				}
@@ -241,9 +233,27 @@ public class Field {
 		}
 	}
 	public void Clear() {
-		Collision=new String[Collision.length];
-		countColl=0;
+		Collision=new ArrayList<String>();
 		countShips=0;
-		ships=new Ships[anzShips];
+		ships.clear();
+	}
+	public void loeschSchiff(String s) {
+		int d=0,z=0;
+		
+		d=Collision.indexOf(s);
+		for(int j=0;j<ships.size();j++) 
+		{
+			for(int f=0;f<ships.get(j).getSize();f++) {
+				if(s.equals(ships.get(j).getCoords(f))) {
+					z=ships.get(j).getSize();
+					ships.remove(j);
+				}
+			}
+			
+		}
+		for(int i=0;i<((z+2)*3);i++)
+		{
+			Collision.remove(d+i);
+		}
 	}
 }

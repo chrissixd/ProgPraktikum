@@ -24,7 +24,7 @@ public class KI extends Spieler {
 	private String firstCoord;
 	private int turn;
 	private boolean ende;
-	
+	private int destroyedShips;
 	
 	public KI(int AS,int LVL, boolean On)  //On entspricht Online oder nicht online
 	{
@@ -39,16 +39,30 @@ public class KI extends Spieler {
 		AnzHit=0;
 		turn=0;
 		ende=false;
+		destroyedShips=0;
+	}
+	public int KIAttack(String Coord)
+	{
+		return getAttack(Coord);
 	}
 	
-	public int KIAttack() 
+	public int KIAttack(Spieler A) 
 	{
 		String Coord="   ";
+		Random Rnd = new Random();
+		int x=0,y=0;
 		switch(lvl) 
 		{
+			case 0:
+			do
+			{
+				x=Rnd.nextInt(FG);
+				y=Rnd.nextInt(FG);
+				Coord = x + " " + y;
+			}
+			while(AttacksI.contains(Coord));
+		break;
 			case 1:
-				int x=0,y=0;
-				Random Rnd = new Random();
 				do
 				{
 					if(hit)
@@ -65,50 +79,54 @@ public class KI extends Spieler {
 				while(AttacksI.contains(Coord));
 			break;
 			case 2:
-				int x2=0,y2=0;
-				Random Rnd2 = new Random();
 				do
 				{
 					if(!hit)
 					{
-						x2=Rnd2.nextInt(FG);
-						y2=Rnd2.nextInt(FG);
-						if((gerade)&&((x2+y2)%2==0)) {
-							Coord = x2 + " " + y2;
+						x=Rnd.nextInt(FG);
+						y=Rnd.nextInt(FG);
+						if((gerade)&&((x+y)%2==0)) {
+							Coord = x + " " + y;
 						}
-						else if((!gerade)&&((x2+y2)%2==1)) {
-							Coord = x2 + " " + y2;
+						else if((!gerade)&&((x+y)%2==1)) {
+							Coord = x + " " + y;
 						}
-						else if(gerade)
-						{
-							Coord = x2 + " " + y2;
-						}
-						else
-						{
-							Coord = x2 + " " + y2;
-						}	
+
 					}
 					else
 					{
 						Coord=getroffen(CoordHit,verhor);
 					}
 				}
-				while(AttacksI.contains(Coord));
+				while(AttacksI.contains(Coord) || Coord.equals("   "));
 			break;
+			case 3:
+				do
+				{
+					if(!hit)
+					{
+						x=Rnd.nextInt(FG);
+						y=Rnd.nextInt(FG);
+						if((gerade)&&((x+y)%2==0)) {
+							Coord = x + " " + y;
+						}
+						else if((!gerade)&&((x+y)%2==1)) {
+							Coord = x + " " + y;
+						}
+					}
+					else
+					{
+						Coord=getroffen(CoordHit,verhor);
+					}
+				}
+				while(AttacksI.contains(Coord) || Coord.equals("   "));
+				break;
 		}
 		int z=-1;
-		
-		if(Online) 
-		{
-			 z = this.attackOnline(Coord);
-		}
-		else 
-		{
-			 z = this.getAttack(Coord);
-			 
-		}
+		z = getAttack(Coord);
 		AttacksI.add(Coord);
-		System.out.println(z + " : " + Coord);
+		//System.out.println(z + " : " + Coord);
+		//int x=0,y=0;
 		
 		switch(z) 
 		{
@@ -118,6 +136,7 @@ public class KI extends Spieler {
 					CoordHit=firstCoord;
 					ende=true;
 				}
+				
 				break;
 			case 1:
 				if((!hit)&&(AnzHit==0)) {
@@ -125,16 +144,15 @@ public class KI extends Spieler {
 					Hit1 = 0;
 					firstCoord=Coord;
 					CoordHit=Coord;
-					AnzHit++;
 				}
 				else if(AnzHit==1)
 				{
 					verhor=VerHor(firstCoord,Coord); //1 --> vertikal, 2 --> horizontal
-					AnzHit++;
 					CoordHit=Coord;
 				}
-				else
+				else 
 					CoordHit=Coord;
+				AnzHit++;
 				break;
 			case 2:
 				hit=false;
@@ -143,6 +161,12 @@ public class KI extends Spieler {
 				turn=0;
 				firstCoord=null;
 				ende=false;
+				destroyedShips++;
+				if(destroyedShips==AS)
+				{
+					z=3;
+				}
+				
 				break;
 		}
 		return z;
@@ -227,8 +251,11 @@ public class KI extends Spieler {
 			}
 			if(y>=FG||y<0)
 			{
+				String s;
 				ende=true;
-				CoordHit=firstCoord;
+				s=firstCoord;
+				firstCoord=CoordHit; //
+				CoordHit=s;
 				Coord=getroffen(CoordHit,verhor);
 			}
 			else
